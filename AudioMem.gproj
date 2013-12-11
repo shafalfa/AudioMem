@@ -1,0 +1,107 @@
+<project>
+ <properties autorotation="0" encryptAssets="0" fps="60" scaleMode="3" mouseToTouch="1" iosDevice="0" packageName="com.yourdomain.yourapp" logicalHeight="480" logicalWidth="320" mouseTouchOrder="0" encryptCode="0" retinaDisplay="1" touchToMouse="1" assetsOnly="0" orientation="1" architecture="0">
+  <imageScales/>
+ </properties>
+ <folder name="audio">
+  <folder name="effects">
+   <file source="audio/effects/windchimes_d1t35.wav"/>
+   <file source="audio/effects/train_whistle_d4t29.wav"/>
+   <file source="audio/effects/train_horn_d4t28.wav"/>
+   <file source="audio/effects/ticking_clock_d1t12.wav"/>
+   <file source="audio/effects/thunder_d3t33.wav"/>
+   <file source="audio/effects/telephone_siemens_d6t59.wav"/>
+   <file source="audio/effects/seagulss_d2t36.wav"/>
+   <file source="audio/effects/rain_d2t57.wav"/>
+   <file source="audio/effects/rain_d2t13.wav"/>
+   <file source="audio/effects/man_scream_d6t81.wav"/>
+   <file source="audio/effects/kookaburra_d2t38.wav"/>
+   <file source="audio/effects/jack_hammer_d3t22.wav"/>
+   <file source="audio/effects/helicopter_d4t66.wav"/>
+   <file source="audio/effects/heartbeat_d1t47.wav"/>
+   <file source="audio/effects/gong_d6t32.wav"/>
+   <file source="audio/effects/footsteps_man_d6t76.wav"/>
+   <file source="audio/effects/fog_horn_d2t51.wav"/>
+   <file source="audio/effects/explosion_d2t29.wav"/>
+   <file source="audio/effects/crickets_d3t47.wav"/>
+   <file source="audio/effects/church_bells_d1t31.wav"/>
+   <file source="audio/effects/cat_meow_d4t64.wav"/>
+   <file source="audio/effects/car_horn_d2t1.wav"/>
+   <file source="audio/effects/birds_twittering_d2t41.wav"/>
+   <file source="audio/effects/baby_crying_d1t43.wav"/>
+   <file source="audio/effects/applause_d2t14.wav"/>
+  </folder>
+  <file source="audio/hit.wav"/>
+  <file source="audio/complete.mp3"/>
+  <file source="audio/main.mp3"/>
+ </folder>
+ <folder name="classes">
+  <file source="sound_button.lua"/>
+  <file source="game_controller.lua"/>
+  <file source="classes/TextWrap.lua"/>
+  <file source="classes/scenemanager.lua"/>
+  <file source="classes/lib.lua"/>
+  <file source="classes/json.lua"/>
+  <file source="classes/gtween.lua"/>
+  <file source="classes/easing.lua"/>
+  <file source="classes/dataSaver.lua"/>
+  <file source="classes/button.lua"/>
+  <file source="classes/Ace.Slide.lua"/>
+ </folder>
+ <folder name="images">
+  <file source="images/glossy_grey.png"/>
+  <file source="images/glossy_red.png"/>
+  <file source="images/glossy_green.png"/>
+  <file source="images/red_button.png"/>
+  <file source="images/game_bg2.jpg"/>
+  <file source="images/game_bg.png"/>
+  <file source="images/next_up.png"/>
+  <file source="images/next_down.png"/>
+  <file source="images/packselect_up.png"/>
+  <file source="images/packselect_down.png"/>
+  <file source="images/levelselect_up.png"/>
+  <file source="images/levelselect_down.png"/>
+  <file source="images/crate_locked.png"/>
+  <file source="images/help_up.png"/>
+  <file source="images/help_down.png"/>
+  <file source="images/options_up.png"/>
+  <file source="images/options_down.png"/>
+  <file source="images/start_up.png"/>
+  <file source="images/start_down.png"/>
+  <file source="images/soundson_up.png"/>
+  <file source="images/soundson_down.png"/>
+  <file source="images/soundsoff_up.png"/>
+  <file source="images/soundsoff_down.png"/>
+  <file source="images/resume_up.png"/>
+  <file source="images/resume_down.png"/>
+  <file source="images/reset_up.png"/>
+  <file source="images/reset_down.png"/>
+  <file source="images/pause_up.png"/>
+  <file source="images/pause_down.png"/>
+  <file source="images/musicon_up.png"/>
+  <file source="images/musicon_down.png"/>
+  <file source="images/musicoff_up.png"/>
+  <file source="images/musicoff_down.png"/>
+  <file source="images/menu_up.png"/>
+  <file source="images/menu_down.png"/>
+  <file source="images/back_up.png"/>
+  <file source="images/back_down.png"/>
+  <file source="images/button_up.png"/>
+  <file source="images/button_down.png"/>
+  <file source="images/gideros_mobile.png"/>
+  <file source="images/right-up.png"/>
+  <file source="images/right-down.png"/>
+  <file source="images/left-up.png"/>
+  <file source="images/left-down.png"/>
+  <file source="images/crate.png"/>
+ </folder>
+ <file source="table_save.lua"/>
+ <file source="options.lua"/>
+ <file source="mem_game.lua"/>
+ <file source="packs.json"/>
+ <file source="start.lua"/>
+ <file source="pack_select.lua"/>
+ <file source="help.lua"/>
+ <file source="main.lua"/>
+ <file source="level_select.lua"/>
+ <file source="level.lua"/>
+</project>
