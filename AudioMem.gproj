@@ -2,7 +2,12 @@
  <properties autorotation="0" encryptAssets="0" fps="60" scaleMode="3" mouseToTouch="1" iosDevice="0" packageName="com.yourdomain.yourapp" logicalHeight="480" logicalWidth="320" mouseTouchOrder="0" encryptCode="0" retinaDisplay="1" touchToMouse="1" assetsOnly="0" orientation="1" architecture="0">
   <imageScales/>
  </properties>
+ <folder name="fonts">
+  <file source="../Burak/Computerfont24.txt"/>
+  <file source="../Burak/Computerfont24.png"/>
+ </folder>
  <folder name="audio">
+  <file source="audio/cha_ching.mp3"/>
   <folder name="effects">
    <file source="audio/effects/windchimes_d1t35.wav"/>
    <file source="audio/effects/train_whistle_d4t29.wav"/>
@@ -48,6 +53,13 @@
   <file source="classes/Ace.Slide.lua"/>
  </folder>
  <folder name="images">
+  <file source="images/quit_button_old.png"/>
+  <file source="images/congrats_panel.png"/>
+  <file source="images/quit_button.png"/>
+  <file source="images/output_box.png"/>
+  <file source="images/glossy_grey30.png"/>
+  <file source="images/glossy_green30.png"/>
+  <file source="images/glossy_red30.png"/>
   <file source="images/glossy_grey.png"/>
   <file source="images/glossy_red.png"/>
   <file source="images/glossy_green.png"/>

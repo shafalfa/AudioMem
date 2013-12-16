@@ -1,6 +1,6 @@
-GameController = Core.class()
+GameController = Core.class(EventDispatcher)
 
-function GameController:init()
+function GameController:init(screen)
 	self.sound_channel = nil
 	self.first_button = nil
 	self.second_button = nil
@@ -8,7 +8,12 @@ function GameController:init()
 	self.num_rows = 5
 	self.num_columns = 8
 	self:initialise_matrix()
-	
+	self.screen = screen
+	self.score = 0
+	self.timer = nil
+	self.matched = 0
+
+	--Create the sound matrix
 	local num_sounds = table.getn(self.sound_db)
 	local num_elements = self.num_rows * self.num_columns / 2, r1, c1, r2, c2, sound_file, rand, db_row
 
@@ -19,9 +24,9 @@ function GameController:init()
 		
 		r1, c1 = self:get_random_free_position()
 		--Have to assign something to this position otherwise next call to get_random_free_position might return same cell
-		self.sound_matrix[r1][c1] = { sound = Sound.new(sound_file), file = sound_file, played_count = 0, match = { r = r2, c = c2 } }
+		self.sound_matrix[r1][c1] = { sound = Sound.new(sound_file), file = sound_file, played_count = 0, match = { r = r2, c = c2 }}
 		r2, c2 = self:get_random_free_position()
-		self.sound_matrix[r2][c2] = { sound = Sound.new(sound_file), file = sound_file, played_count = 0, match = { r = r1, c = c1 } }
+		self.sound_matrix[r2][c2] = { sound = Sound.new(sound_file), file = sound_file, played_count = 0, match = { r = r1, c = c1 }}
 		
 		--Have to rassign match for first element as the co-ordinates weren't available previously
 		self.sound_matrix[r1][c1].match.r = r2
@@ -29,29 +34,68 @@ function GameController:init()
 		--print("(" .. r1 .. "," .. c1 ..") " .. " (" .. r2 .. "," .. c2 ..") " .. sound_file)
 	end
 	--self:print_matrix()
+	
+	--Now, set up the timer and the score
+	self.timer = Timer.new(1000)
+	self.timer:addEventListener(Event.TIMER, self.timer_tick, self)
+	self.timer:start()
+	
+	self:addEventListener("score_changed", screen.score_changed, screen)
+	
 end
 
 function GameController:button_pressed(r, c)
+	--Stop any sound if it is still playing
+	if(self.sound_channel) then
+		self.sound_channel:stop()
+	end
+	
 	if(self.first_button) then
-		--When clicking the second button, must wait till sound finishes before clicking another one
-		sceneManager.current_scene:dispatchEvent(Event.new("disableButtonClicks"))
-		self.second_button = { r = r, c = c }
-		
-		--Stop first sound if it is still playing
-		if(self.sound_channel) then
-			self.sound_channel:stop()
-		end		
+	
+		if(self.second_button)then
+			--This means that two buttons have been pressed and the user has clicked another
+			--That means we must pop up the first two buttons (we assume they weren't a match otherwise the user
+			--would not have been able to click a third
+			self.screen:popup_buttons(self.first_button, self.second_button)
+			self.first_button = {  r = r, c = c }
+			self.second_button = nil
+		else
+			--This means we're clicking the second button
+			self.second_button = { r = r, c = c }
+			--When clicking the second button, must wait till sound finishes before clicking another one
+			if(self:isMatch()) then
+				self.screen:dispatchEvent(Event.new("disableButtonClicks"))
+			end
+			
+		end
 	else
+		--First button pressed (without having interrupted the previous sound)
 		self.first_button = {  r = r, c = c }
 	end
 	
 	--Play sound associated with button
 	self.sound_channel = self.sound_matrix[r][c].sound:play()
+	self.sound_matrix[r][c].played_count = self.sound_matrix[r][c].played_count + 1
+	self:deduct_play_count(r, c)
 	
 	--If we're on the second button then set up event for when sound is finished to reset buttons and enable clicking
 	if(self.second_button) then
-		local match = self:isMatch()
-		self.sound_channel:addEventListener(Event.COMPLETE, function() sceneManager.current_scene:second_sound_finished(match) end)
+		self.sound_channel:addEventListener(Event.COMPLETE, self.second_sound_complete, self)
+	end
+end
+
+function GameController:deduct_play_count(r, c)
+	local deduction = 0
+	if(self.sound_matrix[r][c].played_count > 2 and self.sound_matrix[r][c].played_count < 5) then
+		deduction = 5
+	elseif(self.sound_matrix[r][c].played_count >= 5 and self.sound_matrix[r][c].played_count < 10) then
+		deduction = 10
+	elseif(self.sound_matrix[r][c].played_count >= 10) then
+		deduction = 15
+	end
+	if(deduction > 0) then
+		self.score = self.score - deduction
+		self:dispatchEvent(Event.new("score_changed"))
 	end
 end
 
@@ -107,6 +151,51 @@ function GameController:initialise_matrix()
 	end
 end
 
+function GameController:second_sound_complete()
+	local complete = false
+	local match = self:isMatch()
+	if(match) then
+		sounds.play("cha_ching")
+		self.score = self.score + 50
+		self:dispatchEvent(Event.new("score_changed"))
+		self.matched = self.matched + 1
+		if(self.matched == (self.num_columns * self.num_rows / 2)) then
+			self.timer:stop()
+			complete = true
+			sounds.play("complete")
+		end
+	end
+	self.screen:second_sound_complete(match, self.first_button, self.second_button, complete)
+	self.first_button = nil
+	self.second_button = nil
+end
+
+function GameController:timer_tick()
+	local count = self.timer:getCurrentCount(), multiplier, mod
+	--For every 30 seconds over a minute, deduct 5 points. Over two minutes, 10 points ... etc
+	if(count > 60) then
+		--print("One minute")
+		multiplier = math.ceil(count / 120)
+		mod = count % 60
+		if(mod == 0 or mod == 30) then
+			self.score = self.score - multiplier * 5
+			self:dispatchEvent(Event.new("score_changed"))
+		end
+	end
+	self.screen:timer_tick(count)
+	--self.screen:set_score(self.score)
+end
+
+function GameController:quit()
+	if(self.sound_channel) then
+		self.sound_channel:stop()
+	end
+	if(self.timer) then
+		self.timer:stop()
+	end
+	self.score = 0
+end
+
 function GameController:setup_db()
 	self.sound_db = {}
 	self.sound_db[1] = { description = "Applause", file = "audio/effects/applause_d2t14.wav", category = "fx" }
@@ -149,4 +238,8 @@ function GameController:print_matrix()
 			end
 		end
 	end
+end
+
+function GameController:posString(x, y)
+	return "(" .. x .. "," .. y ..")"
 end

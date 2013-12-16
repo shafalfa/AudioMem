@@ -69,6 +69,7 @@ sounds = {}
 --after that you can simply play them as sounds.play("hit")
 sounds.complete = Sound.new("audio/complete.mp3")
 sounds.hit = Sound.new("audio/hit.wav")
+sounds.cha_ching = Sound.new("audio/cha_ching.mp3")
 
 --turn sounds on
 sounds.on = function()
@@ -100,8 +101,6 @@ end
 	
 --load packs and level amounts from packs.json
 packs = dataSaver.load("packs")
-
-game_controller = GameController.new()
 
 --define scenes
 sceneManager = SceneManager.new({

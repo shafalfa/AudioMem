@@ -8,9 +8,9 @@ This code is MIT licensed, see http://www.opensource.org/licenses/mit-license.ph
 SoundButton = gideros.class(Sprite)
 
 function SoundButton:init(panel)
-	self.upState = Bitmap.new(Texture.new("images/glossy_red.png"))
-	self.downState = Bitmap.new(Texture.new("images/glossy_green.png"))
-	self.disabledState = Bitmap.new(Texture.new("images/glossy_grey.png"))
+	self.upState = Bitmap.new(Texture.new("images/glossy_red30.png"))
+	self.downState = Bitmap.new(Texture.new("images/glossy_green30.png"))
+	self.disabledState = Bitmap.new(Texture.new("images/glossy_grey30.png"))
 	
 	self.disableClick = false	
 	self.focus = false
